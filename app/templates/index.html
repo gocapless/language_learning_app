@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Learning App</title>
+</head>
+<body>
+    <h1>Practice European Portuguese Phrases</h1>
+    <div id="phrase-box">Click "Next" to get a phrase!</div>
+    <audio id="audio" controls style="display: none;"></audio>
+    <br><br>
+    <button onclick="getNextPhrase()">Next</button>
+
+    <script>
+        async function getNextPhrase() {
+            const response = await fetch('/phrase');
+            const data = await response.json();
+            document.getElementById('phrase-box').innerText = data.phrase;
+
+            if (data.audio) {
+                const audioElement = document.getElementById('audio');
+                audioElement.src = '/' + data.audio;
+                audioElement.style.display = 'block';
+                audioElement.play();
+            }
+        }
+    </script>
+</body>
+</html>

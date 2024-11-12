@@ -1,0 +1,37 @@
+# Byte-compiled / Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Flask cache and session data
+instance/
+*.sqlite3
+*.db
+
+# Google Cloud credentials
+*.json
+
+# Environment variables
+.env
+
+# Audio files
+app/static/audio/*.mp3
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Ignore VSCode settings if using it
+.vscode/
+
+# Ignore key pairs used for SSH
+*.pem
+*.ppk
