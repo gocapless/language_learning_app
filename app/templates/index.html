@@ -4,14 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Language Learning App</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Practice European Portuguese Phrases</h1>
-    <div id="phrase-box">Click "Next" to get a phrase!</div>
-    <audio id="audio" controls style="display: none;"></audio>
-    <br><br>
-    <button onclick="getNextPhrase()">Next</button>
+<body class="bg-light d-flex flex-column justify-content-center align-items-center">
 
+    <!-- Header -->
+    <header class="container-fluid bg-primary text-white text-center py-3 mb-4">
+        <h1>Practice European Portuguese Phrases</h1>
+    </header>
+
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
+        <div class="container">
+            <a class="navbar-brand" href="#">Language App</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/account">Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/settings">Settings</a></li>
+                </ul>
+                <button id="loginButton" class="btn btn-outline-primary my-2 my-sm-0" onclick="toggleLogin()">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container text-center mt-5">
+        <div id="phrase-box" class="alert alert-primary" role="alert">
+            Click "Next" to get a phrase!
+        </div>
+        <audio id="audio" controls class="my-3" style="display: none;"></audio>
+        <button onclick="getNextPhrase()" class="btn btn-primary mt-3">Next</button>
+    </div>
+
+    <!-- JavaScript dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
     <script>
         async function getNextPhrase() {
             const response = await fetch('/phrase');
@@ -23,6 +58,15 @@
                 audioElement.src = '/' + data.audio;
                 audioElement.style.display = 'block';
                 audioElement.play();
+            }
+        }
+
+        function toggleLogin() {
+            const loginButton = document.getElementById('loginButton');
+            if (loginButton.innerText === 'Login') {
+                loginButton.innerText = 'Logout';
+            } else {
+                loginButton.innerText = 'Login';
             }
         }
     </script>
