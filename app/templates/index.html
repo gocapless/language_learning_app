@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Language Learning App</title>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light d-flex flex-column justify-content-center align-items-center">
@@ -13,8 +12,7 @@
     <header class="container-fluid bg-primary text-white text-center py-3 mb-4">
         <h1>Practice European Portuguese Phrases</h1>
     </header>
-
-    <!-- Navigation bar -->
+<!-- Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
         <div class="container">
             <a class="navbar-brand" href="#">Language App</a>
@@ -31,42 +29,49 @@
             </div>
         </div>
     </nav>
-
     <!-- Main content -->
     <div class="container text-center mt-5">
         <div id="phrase-box" class="alert alert-primary" role="alert">
             Click "Next" to get a phrase!
         </div>
-        <audio id="audio" controls class="my-3" style="display: none;"></audio>
+
+        <!-- Custom audio controls and speed options -->
+        <div class="d-flex align-items-center justify-content-center mt-3">
+            <button onclick="playAudio()" class="btn btn-primary mr-3">Play</button>
+            <div>
+                <label class="mr-2"><input type="radio" name="speed" value="1" checked> Normal</label>
+                <label class="mr-2"><input type="radio" name="speed" value="0.75"> 0.75x</label>
+                <label><input type="radio" name="speed" value="1.25"> 1.25x</label>
+            </div>
+        </div>
+
+        <!-- Hidden audio element for playback -->
+        <audio id="audio" style="display: none;"></audio>
+
+        <!-- Next phrase button -->
         <button onclick="getNextPhrase()" class="btn btn-primary mt-3">Next</button>
     </div>
 
-    <!-- JavaScript dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- Custom JavaScript -->
     <script>
         async function getNextPhrase() {
             const response = await fetch('/phrase');
             const data = await response.json();
             document.getElementById('phrase-box').innerText = data.phrase;
 
+            const audioElement = document.getElementById('audio');
             if (data.audio) {
-                const audioElement = document.getElementById('audio');
                 audioElement.src = '/' + data.audio;
-                audioElement.style.display = 'block';
-                audioElement.play();
             }
         }
 
-        function toggleLogin() {
-            const loginButton = document.getElementById('loginButton');
-            if (loginButton.innerText === 'Login') {
-                loginButton.innerText = 'Logout';
+        function playAudio() {
+            const audioElement = document.getElementById('audio');
+            if (audioElement.src) {
+                const selectedSpeed = document.querySelector('input[name="speed"]:checked').value;
+                audioElement.playbackRate = parseFloat(selectedSpeed);
+                audioElement.play();
             } else {
-                loginButton.innerText = 'Login';
+                alert('Please load a phrase first by clicking "Next".');
             }
         }
     </script>
