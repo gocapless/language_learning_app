@@ -12,7 +12,7 @@
     <header class="container-fluid bg-primary text-white text-center py-3 mb-4">
         <h1>Practice European Portuguese Phrases</h1>
     </header>
-<!-- Navigation bar -->
+    <!-- Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
         <div class="container">
             <a class="navbar-brand" href="#">Language App</a>
@@ -31,11 +31,37 @@
     </nav>
     <!-- Main content -->
     <div class="container text-center mt-5">
+        <!-- Phrase display -->
         <div id="phrase-box" class="alert alert-primary" role="alert">
             Click "Next" to get a phrase!
         </div>
 
-        <!-- Custom audio controls and speed options -->
+        <!-- CEFR level and topic selection -->
+        <form id="settings-form" class="mb-4">
+            <div class="form-group">
+                <label for="cefr-level">Select CEFR Level:</label>
+                <select id="cefr-level" class="form-control w-50 mx-auto">
+                    <option value="A1">A1 - Beginner</option>
+                    <option value="A2">A2 - Elementary</option>
+                    <option value="B1">B1 - Intermediate</option>
+                    <option value="B2">B2 - Upper Intermediate</option>
+                    <option value="C1">C1 - Advanced</option>
+                    <option value="C2">C2 - Proficient</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="topic">Select Topic:</label>
+                <select id="topic" class="form-control w-50 mx-auto">
+                    <option value="Greetings">Greetings</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Dining">Dining</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Emergency">Emergency</option>
+                </select>
+            </div>
+        </form>
+
+        <!-- Audio controls -->
         <div class="d-flex align-items-center justify-content-center mt-3">
             <button onclick="playAudio()" class="btn btn-primary mr-3">Play</button>
             <div>
@@ -54,7 +80,12 @@
 
     <script>
         async function getNextPhrase() {
-            const response = await fetch('/phrase');
+            // Get selected CEFR level and topic
+            const cefrLevel = document.getElementById('cefr-level').value;
+            const topic = document.getElementById('topic').value;
+
+            // Fetch the next phrase
+            const response = await fetch(`/phrase?cefr_level=${cefrLevel}&topic=${topic}`);
             const data = await response.json();
             document.getElementById('phrase-box').innerText = data.phrase;
 
@@ -77,3 +108,4 @@
     </script>
 </body>
 </html>
+
